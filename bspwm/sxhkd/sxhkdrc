@@ -1,0 +1,149 @@
+###########################################
+####   ХОТКЕИ ДЛЯ ЗАПУСКА ПРИЛОЖЕНИЙ   ####
+###########################################
+
+alt + d
+	rofi -show drun
+
+alt + Return
+	terminator
+
+@Print
+	scrot
+
+shift + @Print
+	scrot -d 5
+
+alt + n
+        thunar
+
+alt + v
+	virt-manager
+
+super + b
+	blender
+
+super + i
+	inkscape
+
+alt + l
+	lutris
+
+
+###########################################
+####          УПРАВЛЕНИЕ BSPWM         ####
+###########################################
+
+#ЗАКРЫТЬ ОКНО ИЛИ УБИТЬ ЕГО
+alt + shift + q
+	bspc node -{c}
+
+#ПЕРЕЗАГРУЗИТЬ КОНФИГ SXHKD
+alt + shift + r
+        pkill -USR1 -x sxhkd
+
+#ВЫЙТИ/ПЕРЕЗАГРУЗИТЬ BSPWM
+super + shift + {q,r}
+        bspc {quit,wm -r}
+
+#ПЕРЕХОД В РЕЖИМ МОНОКЛЯ И ОБРАТНО
+alt + f
+	bspc desktop -l next
+
+#отправить новейший отмеченный узел в новейший предварительно выбранный узел(яхз что это значит)
+super + y
+	bspc node newest.marked.local -n newest.!automatic.local
+
+#ПОМЕНЯТЬ МЕСТАМИ ТЕКУЩЕЕ И САМОЕ БОЛЬШОЕ ОКНО
+alt + i
+	bspc node -s biggest.window
+
+
+
+###########################################
+####         УПРАВЛЕНИЕ ФЛАГАМИ        ####
+###########################################
+
+#ПОМЕНЯТЬ СТАТУС ОКНА НА /ТАЙЛОВОЕ/ПСЕВДО ТАЙЛОВОЕ/ПЛАВАЮЩЕЕ/ПОЛНОЭКРАННОЕ
+alt + {t,shift + t,s,f}
+	bspc node -t {tiled,pseudo_tiled,floating,fullscreen}
+
+#УСТАНОВИТЬ ФЛАГ УЗЛА /ОТМЕЧЕННЫЙ/ЗАЛОЧЕННЫЙ/ЛИПКИЙ/ПРИВАТНЫЙ
+super + ctrl + {m,x,y,z}
+	bspc node -g {marked,locked,sticky,private}
+
+
+
+###########################################
+####         УПРАВЛЕНИЕ ФОКУСОМ        ####
+###########################################
+
+#ПЕРЕМЕСТИТЬ ОКНО
+alt + {shift + }{j,k,l,;}
+	bspc node -{f,s} {west,south,north,east}
+
+#ВЫДЕЛИТЬ НЕСКОЛЬКО ПРИЛОЖЕНИЙ НАПРИМЕР ЧТО БЫ ПЕРЕМЕСТИТЬ ГРУППУ ПРИЛОЖЕНИЙ НА ДРУГОЙ ВОРКСПЕЙС
+super + {p,b,comma,period}
+	bspc node -f @{parent,brother,first,second}
+
+#ПЕРЕКЛЮЧЕНИЕ ПО ОТКРЫТЫМ ПРИЛОЖЕНИЯМ В ПРЕДЕЛАХ ОДНОГО ВОРКСПЕЙСА
+alt + {j,k,l,;}
+	bspc node -f {next,prev}.local.!hidden.window
+
+#ПЕРЕХОД ПО ВОРКСПЕЙСАМ
+alt + {left,right}
+	bspc desktop -f {prev,next}.local
+
+#ВЕРНУТСЯ НА ПРЕДЫДУЩИЙ АКТИВНЫЙ ВОРКСПЕЙС
+alt + {grave,Tab}
+	bspc {node,desktop} -f last
+
+#ПЕРЕХОД НА ПО ИСТОРИИ ОТКРЫТЫХ ПРИЛОЖЕНИЙ
+super + {o,i}
+	bspc wm -h off; \
+	bspc node {older,newer} -f; \
+	bspc wm -h on
+
+#ПЕРЕКЛЮЧИТСЯ НА ВОРКСПЕЙС ИЛИ ПЕРЕТАЩИТЬ НА НЕГО АКТИВНОЕ ОКНО
+alt + {_,shift + }{1-9,0}
+	bspc {desktop -f,node -d} '^{1-9,10}'
+
+
+
+###########################################
+####       ПРЕДВАРИТЕЛЬНЫМ ВЫБОР       ####
+###########################################
+
+#ВЫБРАТЬ НАПРАВЛЕНИЕ В КОТОРОМ ОТКРОЕТСЯ НОВОЕ ОКНО
+alt + ctrl + {j,k,l,;}
+	bspc node -p {west,south,north,east}
+
+#ВЫБРАТЬ ВОРКСПЕЙС НА КОТОРОМ ОТКРОЕТСЯ НОВОЕ ОКНО
+super + ctrl + {1-9}
+	bspc node -o 0.{1-9}
+
+#ОТМЕНИТЬ НАПРАВЛЕНИЕ В КОТОРОМ ОТКРОЕТСЯ НОВОЕ ОКНО
+super + ctrl + space
+	bspc node -p cancel
+
+#ОТМЕНИТЬ ВОРКСПЕЙС НА КОТОРОМ ОТКРОЕТСЯ НОВОЕ ОКНО
+super + ctrl + shift + space
+	bspc query -N -d | xargs -I id -n 1 bspc node id -p cancel
+
+
+
+###########################################
+####   ПЕРЕМЕЩЕНИЕ/ИЗМЕНЕНИЕ РАЗМЕРА   ####
+###########################################
+
+#УВЕЛИЧИТЬ ОКНО СДВИНУВ ОДНУ ИЗ ЕГО СТОРОН
+alt + {h,j,k,l}
+	bspc node -z {left -10 0,bottom 0 10,top 0 -10,right 10 0}
+
+#УМЕНЬШИТЬ ОКНО СДВИНУВ ОДНУ ИЗ ЕГО СТОРОН
+super + alt + shift + {h,j,k,l}
+	bspc node -z {right -10 0,top 0 10,bottom 0 -10,left 10 0}
+
+#ПЕРЕМЕЩЕНИЕ ПЛАВАЮЩИХ ОКОН
+alt + {j,k,l,;}
+	bspc node -v {-10 0,0 10,0 -10,10 0}
